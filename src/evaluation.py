@@ -82,7 +82,7 @@ if __name__ == '__main__':
         'fold=4': [],
     }
     for model in all_models:
-        if 'cnn_model' in model:
+        if ('cnn_model' in model) and ('.pth' in model):
             fold = model.split('_')[2]
             loss = float(model.split('_')[4].split('=')[1].split('.pt')[0])
             best_models[fold].append((model, loss))
