@@ -19,3 +19,6 @@ src/
 2. run train.py to train the model. After training, the user can run draw_validation_curve.py to draw the validation loss, and potentially tune the hyperparameters accordingly.
 
 3. run evaluation.py to evaluate the ensemble model
+
+# Error Analysis
+Just got 1 minute to check the error images, the false prediction might mostly because they have different background color.
