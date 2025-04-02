@@ -49,6 +49,7 @@ def train_model(
     
     model.to(device)
     print(f'Training {model_name}...')
+    training_curve = {'epoch':[], 'val_loss':[], 'val_accuracy': []}
     for epoch in range(n_epochs):
         model.train()
         for i, data in tqdm(enumerate(train_loader), desc=f'Epoch {epoch}'):
@@ -75,8 +76,14 @@ def train_model(
                 correct += (predicted == labels).sum().item()
             accuracy = correct / total
             total_loss = sum(all_loss) / len(all_loss)
+            training_curve['epoch'].append(epoch)
+            training_curve['val_loss'].append(total_loss)
+            training_curve['val_accuracy'].append(accuracy)
             print(f'Epoch {epoch}, Accuracy: {accuracy}, Loss: {total_loss}')
             torch.save(model.state_dict(), f'{output_dir}/{model_name}_epoch={epoch}_loss={total_loss:.3f}.pth')
+    # save the training curve
+    training_curve = pd.DataFrame(training_curve)
+    training_curve.to_csv(f'{output_dir}/{model_name}_training_curve.csv', index=False)
     del model, criterion, optimizer, train_loader, val_loader
     torch.cuda.empty_cache()
 
